@@ -21,4 +21,4 @@ Plot the raw data and write the 8-bit-converted psrfits file as follow:
   psr12run.py -f filename.fits -p -w
 ```
 
-Tools in the pipeline can be manually used as shown in this example notebook.
+The tools in the pipeline can also be used manually as shown in this example notebook.
