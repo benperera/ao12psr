@@ -10,3 +10,4 @@ This the pipeline uses to process the pulsar data obtained daily with the 12-m t
   cd ao12psr
   pip install -e .
 ```
+The installation will add `psr12run.py` to your `PYTHONPATH`.
