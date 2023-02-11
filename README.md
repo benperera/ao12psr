@@ -5,7 +5,7 @@ This the pipeline uses to process the pulsar data obtained daily with the 12-m t
 
 
 # Install
-  
+```
   git clone git@github.com:benperera/ao12psr.git
   cd ao12psr
-
+```
