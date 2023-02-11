@@ -11,3 +11,7 @@ This the pipeline uses to process the pulsar data obtained daily with the 12-m t
   pip install -e .
 ```
 The installation will add `psr12run.py` to your `PYTHONPATH`.
+
+
+## Usage
+The script `psr12run.py` has various options to handle the raw data files such as read in the original 12-bit pstfits data files, clean the data for radio frequency interference, plot the data, output 8-bit psrfits files, correct for the band shape, sum polarization channels, etc.
