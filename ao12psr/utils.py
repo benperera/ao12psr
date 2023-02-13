@@ -214,3 +214,22 @@ def filenames(fn):
     return files
 
 
+def run_dspsr(fn, psr, subint_length=10, nbins=256, prefix='psrchive'):
+    """
+
+    Process the psrfits files using dspsr package
+
+    Args:
+        fn (str): psrfits file name
+	psr (str): Pulsar name for the par file (par file should name as psrname.par)
+	subint_length (int): Length of the sub-integration in sec 
+	nbins (int): Number of bins required across the profile
+	prefix (str): Prefix of the output archive file
+
+    Returns:
+	None
+
+    """
+    cmd = 'dspsr -E '+psr+'.par'+' -A -L '+str(subint_length)+' -b '+str(nbins)+' -O '+prefix+' '+fn
+    os.system(cmd)
+
