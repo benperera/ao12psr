@@ -234,3 +234,33 @@ def run_dspsr(fn, psr, subint_length=10, nbins=256, prefix='psrchive'):
     cmd = 'dspsr -E '+psr+'.par'+' -A -L '+str(subint_length)+' -b '+str(nbins)+' -O '+prefix+' '+fn
     os.system(cmd)
 
+
+def get_snr(y, prop=False):
+    """
+
+    Calculate the Signal-to-noise of the pulse profile
+
+    Args:
+	y (float): Pulse profile data
+	prop (bool): Estimate the S/N using Eq 7.1 in HBPA, otherwise Amp/off_rms
+
+    Returns:
+	snr (float): S/N of the profile	
+
+    """
+    nbin = len(y)
+    shift = int(nbin/2. - np.argmax(y))
+    y = np.roll(y, shift)
+    off = np.concatenate((y[0:int(nbin/4.)],y[int(3.*nbin/4.):nbin-1]))
+    y -= np.mean(off)
+    weq = np.sum(y[int(nbin/4.):int(3.*nbin/4.)])/np.amax(y)
+    off = np.concatenate((y[0:int(nbin/4.)],y[int(3.*nbin/4.):nbin-1]))
+    if prop:
+        snr = np.round(np.sum(y-np.mean(off))/np.std(off)/np.sqrt(weq), 2)
+    else:
+	#If the profile is noisy (e.g. J0437), weq becomes -ve. So decided to use 
+	#snr = peak/off_std (May 27, 2022)
+    	snr = np.amax(y)/np.std(off)
+    return snr
+
+
