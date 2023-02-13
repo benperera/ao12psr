@@ -230,6 +230,7 @@ def run_dspsr(fn, psr, subint_length=10, nbins=256, prefix='psrchive'):
 	None
 
     """
+    logging.info(f'Running DSPSR and creating the archive file {prefix}.ar')
     cmd = 'dspsr -E '+psr+'.par'+' -A -L '+str(subint_length)+' -b '+str(nbins)+' -O '+prefix+' '+fn
     os.system(cmd)
 
