@@ -1,6 +1,6 @@
 
 import logging
-import argparse
+import argparse, os
 
 import numpy as np
 import astropy.io.fits as pyfits
