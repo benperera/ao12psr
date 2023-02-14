@@ -16,7 +16,7 @@ The installation will add `psr12run.py` to your `PYTHONPATH`.
 ## Usage
 The command line script `psr12run.py` has various options to handle the raw data files, such as reading in the original 12-bit psrfits format data files, cleaning the data for radio frequency interference, plotting the data, outputting 8-bit psrfits files, correcting for the band shape, summing polarization channels, etc. 
 
-Plot the raw data and write the 8-bit-converted psrfits file as follow:
+Reading the raw data, making plots, and writing the 8-bit-converted psrfits file can be done:
 ```
   psr12run.py -f filename.fits -p -w
 ```
