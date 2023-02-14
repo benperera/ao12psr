@@ -23,8 +23,8 @@ def plot_psr(fn, outfile=None, pshow=False):
     """
     if outfile is None:
         outfile = 'psrdata.png'
-    plt.figure(0,figsize=(17,8))
-    grid = plt.GridSpec(2, 4, wspace=0.3, hspace=0.3)
+    plt.figure(0,figsize=(14,8))
+    grid = plt.GridSpec(2, 3, wspace=0.3, hspace=0.3)
     obs = psrchive.Archive_load(fn)
     obs.pscrunch()
     obs.dedisperse()
@@ -56,7 +56,7 @@ def plot_psr(fn, outfile=None, pshow=False):
                 extent=[0,1,freq[0],freq[-1]], cmap='hot')
     plt.colorbar()
 
-    plt.subplot(grid[0,2])
+    plt.subplot(grid[1,1])
     plt.xlabel('Pulse Phase')
     plt.ylabel('Time (s)')
     plt.imshow(time_phase[:,0,:], origin='lower', aspect='auto', 
@@ -69,7 +69,7 @@ def plot_psr(fn, outfile=None, pshow=False):
                 data0[:,:,:,int(2.*nbins/3.):nbins-1]),axis=3)
     freq_time = np.std(off_pulse, axis=3)
 
-    plt.subplot(grid[:,3])
+    plt.subplot(grid[:,2])
     plt.xlabel('Frequency (MHz)')
     plt.ylabel('Time (s)')
     plt.imshow(freq_time[:,0,:], origin='lower', aspect='auto', 
