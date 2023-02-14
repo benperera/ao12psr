@@ -26,7 +26,6 @@ def read_data(fn):
         fn (str): Psrfits file name
 
     Returns:
-        fn (str): input fits file
         freqs (np.ndarray): center frequencies of channels
         data (np.ndarray): Data array
         df (float): channels bandwidth
@@ -53,7 +52,7 @@ def read_data(fn):
     freq_str = obsfreq - (bw/2.) + df/2.
     for i in range(nchan):
         freqs[i] = freq_str + (df*i)
-    return [fn, freqs, data, df, tbin]
+    return [freqs, data, df, tbin]
 
 
 def iqrm_rfi(data, tchn):

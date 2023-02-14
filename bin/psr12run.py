@@ -116,14 +116,14 @@ if __name__ == "__main__":
         pool = mp.Pool(ncpus)
         dd = pool.map(utils.read_data, values.file)
 
-        freq = dd[0][1]
-        df0 = dd[0][3]
-        tbin0 = dd[0][4]
+        freq = dd[0][0]
+        df0 = dd[0][2]
+        tbin0 = dd[0][3]
         for i in range(len(values.file)):
             if i > 0:
-                data = np.concatenate((data, dd[i][2]),axis=0)
+                data = np.concatenate((data, dd[i][1]),axis=0)
             else:
-                data = dd[i][2]
+                data = dd[i][1]
         if values.tot_int:
             data = utils.tot_int(data)
         if values.no_iqrm is False:
