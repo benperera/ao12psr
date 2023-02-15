@@ -263,3 +263,26 @@ def get_snr(y, prop=False):
     return snr
 
 
+def skip_chan(freqs1, freqs2, df1):
+    """
+
+    Frequency channels to skip in the overlap region of bands when combining them
+
+    Args:
+	freqs1 (np.ndarray): Frequencies of the lower band
+	freqs2 (np.ndarray): Frequencies of the upper band
+	df1 (float): Bandwidth of a channel
+
+    Returns:
+	upchanskip (float): Number of channels to skip in the lower band
+	lowchanskip (float): Number of channels to skip in the upper band
+
+    """
+    upperfreqoflower = freqs1.max()
+    lowerfreqofupper = freqs2.min()
+    nextfromlower = upperfreqoflower + np.abs(df1)
+    numchandiff = int(np.round((nextfromlower - lowerfreqofupper) / np.abs(df1)))
+    chanskip = numchandiff if numchandiff > 0 else 0
+    (upchanskip, lowchanskip) = (chanskip // 2, chanskip // 2 + 1)
+    return upchanskip, lowchanskip
+
