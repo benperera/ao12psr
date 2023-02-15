@@ -286,3 +286,67 @@ def skip_chan(freqs1, freqs2, df1):
     (upchanskip, lowchanskip) = (chanskip // 2, chanskip // 2 + 1)
     return upchanskip, lowchanskip
 
+
+def comb_7mocks(files, nproc=8, pwr_scaling=False):
+    """
+
+    Combine all 7 bands of the Mocks data to get the full bandwidth
+
+    Args:
+        files (str): List of file names of the 7band data
+        nproc (int): Number of cpu cores to use in parallel
+        pwr_scaling (bool): Enable scaling the power of overlap regions
+                            of adjecent bands
+
+    Returns:
+        freq (np.ndarray): Frequencies of the combined full band
+        data (np.ndarray): Data array of the combined data
+        tbin (float): Sample time of the data
+
+    """
+    if mp.cpu_count() < nproc:
+        logging.info('Num of cpu cores < nproc: set nrpoc = cpu_cores')
+        nproc = mp.cpu_count()
+    pool = mp.Pool(nproc)
+    dd = pool.map(utils.read_data, files)
+    df0 = dd[0][2]
+    tbin = dd[0][3]
+    for w in range(len(files)):
+        globals()[f'freq{w}'] = dd[w][0]
+        globals()[f'data{w}'] = dd[w][1]
+    nrows, nsamp, npols, nfreq, tmp = data0.shape 
+
+    #***combining all seven bands to get the full bandwidth***
+    freq_sband0 = freq0
+    data_sband0 = data0
+    for j in range(len(files)-1):
+        freq_sband1 = globals()[f"freq{j+1}"]
+        data_sband1 = globals()[f"data{j+1}"]
+        uband_chanskip, lband_chanskip = utils.skip_chan(freq_sband0, freq_sband1, df0)
+        freq = np.concatenate((freq_sband0[:-lband_chanskip], freq_sband1[uband_chanskip:]))
+        #print('Nchan = ', len(freq))
+        if pwr_scaling is True:
+            for i in range(npols):
+                pwr_d0 = np.mean(np.mean(data_sband0[:,:,i,:,0], axis=1), axis=0)
+                pwr_d1 = np.mean(np.mean(data_sband1[:,:,i,:,0], axis=1), axis=0)
+                pwr_scl = np.mean(pwr_d0[-lband_chanskip:])/np.mean(pwr_d1[:uband_chanskip])
+                data_sband1[:,:,i,:,:] = data_sband1[:,:,i,:,:]*pwr_scl
+        datatmp = np.concatenate((data_sband0[:,:,:,:-lband_chanskip,:], 
+                            data_sband1[:,:,:,uband_chanskip:,:]),axis=3)
+        #print('\nSHAPE : ', datatmp.shape)
+        freq_sband0 = freq
+        data_sband0 = datatmp
+    #padding extral freq channels if the No. of channels is not a 
+    #multiple of 32. This condition is required for heimdall
+    check_multi = len(freq) % 32.
+    if check_multi != 0:
+        chan_pad = int(32 - check_multi)
+        for i in range(chan_pad):
+            value = freq[len(freq)-1] + df0
+            freq = np.append(freq,value)
+    #print('Nchan pad = ', chan_pad)
+    data_pad = np.full((nrows,nsamp,npols,chan_pad,tmp), 0.0001)    #padding zero messed up with 
+                                                                    #band shape correction
+    data = np.concatenate((datatmp,data_pad),axis=3)
+    return [freq, data, tbin]
+
