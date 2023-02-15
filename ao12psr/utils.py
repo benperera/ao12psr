@@ -318,6 +318,7 @@ def comb_7mocks(files, nproc=8, pwr_scaling=False):
     nrows, nsamp, npols, nfreq, tmp = data0.shape 
 
     #***combining all seven bands to get the full bandwidth***
+    logging.info('Combining all 7 bands')
     freq_sband0 = freq0
     data_sband0 = data0
     for j in range(len(files)-1):
