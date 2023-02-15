@@ -309,7 +309,7 @@ def comb_7mocks(files, nproc=8, pwr_scaling=False):
         logging.info('Num of cpu cores < nproc: set nrpoc = cpu_cores')
         nproc = mp.cpu_count()
     pool = mp.Pool(nproc)
-    dd = pool.map(utils.read_data, files)
+    dd = pool.map(read_data, files)
     df0 = dd[0][2]
     tbin = dd[0][3]
     for w in range(len(files)):
@@ -323,7 +323,7 @@ def comb_7mocks(files, nproc=8, pwr_scaling=False):
     for j in range(len(files)-1):
         freq_sband1 = globals()[f"freq{j+1}"]
         data_sband1 = globals()[f"data{j+1}"]
-        uband_chanskip, lband_chanskip = utils.skip_chan(freq_sband0, freq_sband1, df0)
+        uband_chanskip, lband_chanskip = skip_chan(freq_sband0, freq_sband1, df0)
         freq = np.concatenate((freq_sband0[:-lband_chanskip], freq_sband1[uband_chanskip:]))
         #print('Nchan = ', len(freq))
         if pwr_scaling is True:
