@@ -50,7 +50,7 @@ def plot_raw(data, freq, tbin, rfi_zap=None, outfile=None, pshow=False):
     if rfi_zap is not None:
         for h in range(rfi_zap.shape[0]):
             yval = rfi_zap[h,0,:,0] + h*tsub
-            plt.plot(np.linspace(freq[0],freq[len(freq)-1],256),yval,linestyle='',marker='o',markersize=.3,color='r')
+            plt.plot(np.linspace(freq[0],freq[len(freq)-1],len(freq)),yval,linestyle='',marker='o',markersize=.3,color='r')
         plt.gcf().text(0.77,0.35,'Cleaned by IQRM', fontsize=10)
     if npols != 1:
         plt.subplot(grid[:,1]).set_title('Spectra: Pol B')
@@ -61,7 +61,7 @@ def plot_raw(data, freq, tbin, rfi_zap=None, outfile=None, pshow=False):
         if rfi_zap is not None:
             for h in range(rfi_zap.shape[0]):
                 yval = rfi_zap[h,1,:,0] + h*tsub
-                plt.plot(np.linspace(freq[0],freq[len(freq)-1],256),yval,linestyle='',marker='o',markersize=.3,color='r')
+                plt.plot(np.linspace(freq[0],freq[len(freq)-1],len(freq)),yval,linestyle='',marker='o',markersize=.3,color='r')
         plt.colorbar()
 
     plt.subplot(grid[0,2]).set_title('Power vs Time')
