@@ -4,6 +4,7 @@ import argparse, os
 
 import numpy as np
 import astropy.io.fits as pyfits
+import multiprocessing as mp
 from iqrm import iqrm_mask
 from astropy.io.fits import getdata
 
