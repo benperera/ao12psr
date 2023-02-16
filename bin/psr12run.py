@@ -134,8 +134,8 @@ if __name__ == "__main__":
         	        data = np.concatenate((data, dd[i][1]),axis=0)
 	            else:
         	        data = dd[i][1]
-	if values.band == 'xband':
-		freq, data, tbin0 = utils.comb_7mocks(values.file)
+        if values.band == 'xband':
+            freq, data, tbin0 = utils.comb_7mocks(values.file)
         if values.tot_int:
             data = utils.tot_int(data)
         if values.no_iqrm is False:
