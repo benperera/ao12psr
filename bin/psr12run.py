@@ -22,7 +22,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "-band",
         "--band",
-        help="Band to be processed",
+        help="Band to be processed ('sband' or 'xband')",
         type=str,
         required=False,
         default='sband',
@@ -120,18 +120,22 @@ if __name__ == "__main__":
         raise ValueError("[-f FILE] Input FITS file is missing!")
     else:
         logging.info(f'Input files {values.file}')
-        ncpus = values.nproc
-        pool = mp.Pool(ncpus)
-        dd = pool.map(utils.read_data, values.file)
 
-        freq = dd[0][0]
-        df0 = dd[0][2]
-        tbin0 = dd[0][3]
-        for i in range(len(values.file)):
-            if i > 0:
-                data = np.concatenate((data, dd[i][1]),axis=0)
-            else:
-                data = dd[i][1]
+
+	if values.band == 'sband':
+	        ncpus = values.nproc
+        	pool = mp.Pool(ncpus)
+	        dd = pool.map(utils.read_data, values.file)
+	        freq = dd[0][0]
+        	#df0 = dd[0][2]
+	        tbin0 = dd[0][3]
+        	for i in range(len(values.file)):
+	            if i > 0:
+        	        data = np.concatenate((data, dd[i][1]),axis=0)
+	            else:
+        	        data = dd[i][1]
+	if values.band == 'xband':
+		freq, data, tbin0 = utils.comb_7mocks(values.file)
         if values.tot_int:
             data = utils.tot_int(data)
         if values.no_iqrm is False:
