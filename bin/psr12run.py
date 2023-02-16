@@ -122,7 +122,7 @@ if __name__ == "__main__":
         logging.info(f'Input files {values.file}')
 
 
-	if values.band == 'sband':
+        if values.band == 'sband':
 	        ncpus = values.nproc
         	pool = mp.Pool(ncpus)
 	        dd = pool.map(utils.read_data, values.file)
