@@ -20,6 +20,14 @@ if __name__ == "__main__":
     )
     parser.add_argument("-f", "--file", help="psrfits file or the fits file sequence as a wild card", nargs="+")
     parser.add_argument(
+        "-band",
+        "--band",
+        help="Band to be processed",
+        type=str,
+        required=False,
+        default='sband',
+    )
+    parser.add_argument(
         "-nproc",
         "--nproc",
         help="Number of CPUs for fits file reading",
