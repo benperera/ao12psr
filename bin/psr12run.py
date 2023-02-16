@@ -33,7 +33,7 @@ if __name__ == "__main__":
         help="Number of CPUs for fits file reading",
         type=int,
         required=False,
-        default=4,
+        default=8,
     )
     parser.add_argument(
         "-no_iqrm",
@@ -121,19 +121,20 @@ if __name__ == "__main__":
     else:
         logging.info(f'Input files {values.file}')
 
-
+        if mp.cpu_count() < values.nproc:
+                values.nproc = mp.cpu_count()
         if values.band == 'sband':
-	        ncpus = values.nproc
-        	pool = mp.Pool(ncpus)
-	        dd = pool.map(utils.read_data, values.file)
-	        freq = dd[0][0]
-        	#df0 = dd[0][2]
-	        tbin0 = dd[0][3]
-        	for i in range(len(values.file)):
-	            if i > 0:
-        	        data = np.concatenate((data, dd[i][1]),axis=0)
-	            else:
-        	        data = dd[i][1]
+	    ncpus = values.nproc
+            pool = mp.Pool(ncpus)
+	    dd = pool.map(utils.read_data, values.file)
+	    freq = dd[0][0]
+            #df0 = dd[0][2]
+	    tbin0 = dd[0][3]
+            for i in range(len(values.file)):
+	        if i > 0:
+        	    data = np.concatenate((data, dd[i][1]),axis=0)
+	        else:
+        	    data = dd[i][1]
         if values.band == 'xband':
             freq, data, tbin0 = utils.comb_7mocks(values.file)
         if values.tot_int:
