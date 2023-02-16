@@ -102,19 +102,13 @@ if __name__ == "__main__":
     #parser.add_argument("-v", "--verbose", help="Be verbose", action="store_true")
     values = parser.parse_args()
 
-
     logger = logging.getLogger()
     logging_format = '%(asctime)s - %(levelname)s - %(message)s'
     logging.basicConfig(level=logging.INFO,format=logging_format, datefmt='%Y/%m/%d %I:%M:%S %p')
 
-
     logging.info("Input Arguments:-")
     for arg, value in sorted(vars(values).items()):
         logging.info("%s: %r", arg, value)
-
-    #print('KK:', values.file[0])
-    #print(values.file)
-
     
     if not values.file:
         raise ValueError("[-f FILE] Input FITS file is missing!")
@@ -128,7 +122,6 @@ if __name__ == "__main__":
             pool = mp.Pool(ncpus)
             dd = pool.map(utils.read_data, values.file)
             freq = dd[0][0]
-            #df0 = dd[0][2]
             tbin0 = dd[0][3]
             for i in range(len(values.file)):
                 if i > 0:
@@ -150,7 +143,5 @@ if __name__ == "__main__":
                 plotter.plot_raw(data, freq, tbin0, outfile=values.pout, pshow=values.pshow)
         if values.w:
             writer.write_fits(data, freq, values.file[0], outfile=values.wout)
-
-
 
 
