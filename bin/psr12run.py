@@ -14,7 +14,7 @@ if __name__ == "__main__":
     __spec__ = None
     #__spec__ = "ModuleSpec(name='builtins', loader=<class '_frozen_importlib.BuiltinImporter'>)"
     parser = argparse.ArgumentParser(
-        prog="run_pip_test.py",
+        prog="psr12run.py",
         description="AO 12-m telescope Pulsar data processing pipeline",
         formatter_class=YourArgparseFormatter,
     )
