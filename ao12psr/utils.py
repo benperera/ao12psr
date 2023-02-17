@@ -8,7 +8,9 @@ import multiprocessing as mp
 from iqrm import iqrm_mask
 from astropy.io.fits import getdata
 
-
+logger = logging.getLogger()
+logging_format = '%(asctime)s - %(levelname)s - %(message)s'
+logging.basicConfig(level=logging.INFO,format=logging_format, datefmt='%Y/%m/%d %I:%M:%S %p')
 
 class YourArgparseFormatter(
     argparse.ArgumentDefaultsHelpFormatter, argparse.RawTextHelpFormatter):
