@@ -118,18 +118,9 @@ if __name__ == "__main__":
         if mp.cpu_count() < values.nproc:
                 values.nproc = mp.cpu_count()
         if values.band == 'sband':
-            ncpus = values.nproc
-            pool = mp.Pool(ncpus)
-            dd = pool.map(utils.read_data, values.file)
-            freq = dd[0][0]
-            tbin0 = dd[0][3]
-            for i in range(len(values.file)):
-                if i > 0:
-                    data = np.concatenate((data, dd[i][1]),axis=0)
-                else:
-                    data = dd[i][1]
+            freq, data, tbin0 = utils.read_sband(values.file)
         if values.band == 'xband':
-            freq, data, tbin0 = utils.comb_7mocks(values.file)
+            freq, data, tbin0 = utils.read_xband(values.file)
         if values.tot_int:
             data = utils.tot_int(data)
         if values.no_iqrm is False:

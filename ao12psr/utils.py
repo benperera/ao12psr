@@ -288,7 +288,37 @@ def skip_chan(freqs1, freqs2, df1):
     return upchanskip, lowchanskip
 
 
-def comb_7mocks(files, nproc=8, pwr_scaling=False):
+def read_sband(files, nproc=8):
+    """
+
+    Read S-band data of the 12-m telescope
+
+    Args:
+        files (str): List of file names of the 7band data
+        nproc (int): Number of cpu cores to use in parallel
+
+    Returns:
+        freq (np.ndarray): Frequencies of the band
+        data (np.ndarray): Data array
+        tbin (float): Sample time of the data
+
+    """
+    if mp.cpu_count() < nproc:
+        logging.info('Num of cpu cores < nproc: set nrpoc = cpu_cores')
+        nproc = mp.cpu_count()
+    pool = mp.Pool(ncpus)
+    dd = pool.map(utils.read_data, values.file)
+    freq = dd[0][0]
+    tbin0 = dd[0][3]
+    for i in range(len(values.file)):
+        if i > 0:
+            data = np.concatenate((data, dd[i][1]),axis=0)
+        else:
+            data = dd[i][1]
+    return [freq, data, tbin]
+
+
+def read_xband(files, nproc=8, pwr_scaling=False):
     """
 
     Combine all 7 bands of the Mocks data to get the full bandwidth
