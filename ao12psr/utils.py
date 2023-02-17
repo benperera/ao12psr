@@ -216,7 +216,7 @@ def filenames(fn):
     return files
 
 
-def run_dspsr(fn, psr, subint_length=10, nbins=256, prefix='psrchive'):
+def run_dspsr(fn, parfile, subint_length=10, nbins=256, prefix='psrchive'):
     """
 
     Process the psrfits files using dspsr package
@@ -233,7 +233,7 @@ def run_dspsr(fn, psr, subint_length=10, nbins=256, prefix='psrchive'):
 
     """
     logging.info(f'Running DSPSR and creating the archive file {prefix}.ar')
-    cmd = 'dspsr -E '+psr+' -A -L '+str(subint_length)+' -b '+str(nbins)+' -O '+prefix+' '+fn
+    cmd = 'dspsr -E '+parfile+' -A -L '+str(subint_length)+' -b '+str(nbins)+' -O '+prefix+' '+fn
     os.system(cmd)
 
 
