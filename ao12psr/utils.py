@@ -306,7 +306,7 @@ def read_sband(files, nproc=8):
     if mp.cpu_count() < nproc:
         logging.info('Num of cpu cores < nproc: set nrpoc = cpu_cores')
         nproc = mp.cpu_count()
-    pool = mp.Pool(ncpus)
+    pool = mp.Pool(nproc)
     dd = pool.map(utils.read_data, values.file)
     freq = dd[0][0]
     tbin0 = dd[0][3]
