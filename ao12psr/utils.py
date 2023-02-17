@@ -303,6 +303,7 @@ def read_sband(files, nproc=8):
         tbin (float): Sample time of the data
 
     """
+    logging.info(f'Reading S-band fits files...')
     if mp.cpu_count() < nproc:
         logging.info('Num of cpu cores < nproc: set nrpoc = cpu_cores')
         nproc = mp.cpu_count()
@@ -335,6 +336,7 @@ def read_xband(files, nproc=8, pwr_scaling=False):
         tbin (float): Sample time of the data
 
     """
+    logging.info(f'Reading X-band fits files...')
     if mp.cpu_count() < nproc:
         logging.info('Num of cpu cores < nproc: set nrpoc = cpu_cores')
         nproc = mp.cpu_count()
