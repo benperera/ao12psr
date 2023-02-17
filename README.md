@@ -19,11 +19,21 @@ The installation will add `psr12run.py` to your `PYTHONPATH`.
 
 
 ## Usage
-The command line script `psr12run.py` has various options to handle the raw data files, such as reading in the original 12-bit psrfits format data files, cleaning the data for radio frequency interference, plotting the data, outputting 8-bit psrfits files, correcting for the band shape, summing polarization channels, etc. 
+The command line script `psr12run.py` has various options to handle the raw data files, such as reading in the original 12-bit PSRFITS format data files, cleaning the data for radio frequency interference, plotting the data, outputting 8-bit PSRFITS files, correcting for the band shape, summing polarization channels, combining sub-bands of the X-band observations to produce its 1 GHz of bandwidth, etc. 
 
-To read the raw data, make plots, and output the 8-bit-converted psrfits file, you can do:
+To read the raw data obtained at S-band (e.g., sspsr.20221212.B0833-45.b0s1g0.00100.fits, .....), make plots, and output the 8-bit-converted PSRFITS file, you can do:
 ```
-  psr12run.py -f filename.fits -p -w
+  psr12run.py -f sspsr.20221212.B0833-45.b0s1g0.001*.fits -p -w
 ```
+Note that the S-band is the default band of the pipeline. A sequence of data files can be input using wildcards, as given in the above example.
+
+
+The X-band observations can be pre-processed as follows to combine all sub-bands, clean the data, make raw data plots, and output 8-bit converted PSRFITs files. 
+
+```
+  psr12run.py -f sspsr.20221212.B0833-45.b*.00100.fits -band xband -p -w
+```
+The file names of the seven bands can be given using wildcards, as shown above.
+
 
 The tools in the pipeline can also be used manually as shown in [this example notebook](https://github.com/benperera/ao12psr/blob/main/example/plot_write_data.ipynb).
