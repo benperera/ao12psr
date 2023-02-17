@@ -309,7 +309,7 @@ def read_sband(files, nproc=8):
     pool = mp.Pool(nproc)
     dd = pool.map(read_data, files)
     freq = dd[0][0]
-    tbin0 = dd[0][3]
+    tbin = dd[0][3]
     for i in range(len(files)):
         if i > 0:
             data = np.concatenate((data, dd[i][1]),axis=0)
