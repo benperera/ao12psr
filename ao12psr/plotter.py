@@ -1,5 +1,7 @@
 
 import logging
+
+import psrchive
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -98,4 +100,5 @@ def plot_raw(data, freq, tbin, rfi_zap=None, outfile=None, pshow=False):
     plt.savefig(outfile,bbox_inches="tight",dpi=200)
     if pshow is True:
         plt.show()
+
 
