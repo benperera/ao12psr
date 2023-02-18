@@ -23,6 +23,7 @@ def plot_psr(fn, outfile=None, pshow=False):
     """
     if outfile is None:
         outfile = 'psrdata.png'
+    logging.info(f'Creating pulsar plot {outfile} ....')
     plt.figure(0,figsize=(14,8))
     grid = plt.GridSpec(2, 3, wspace=0.3, hspace=0.3)
     obs = psrchive.Archive_load(fn)
