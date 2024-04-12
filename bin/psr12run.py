@@ -120,7 +120,7 @@ if __name__ == "__main__":
         if values.band == 'sband':
             freq, data, tbin0 = utils.read_sband(values.file)
         if values.band == 'xband':
-            freq, data, tbin0 = utils.read_xband(values.file)
+            freq, data, tbin0 = utils.read_xband(values.file, nproc=values.nproc)
         if values.tot_int:
             data = utils.tot_int(data)
         if values.no_iqrm is False:
